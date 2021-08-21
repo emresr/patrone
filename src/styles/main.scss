@@ -1,0 +1,94 @@
+.main_container {
+  padding: 0 64 px;
+  display: flex;
+}
+/* Feed */
+.feed_container {
+  width: 60%;
+  padding: 0 16px;
+  border-right: 1px solid gray;
+}
+.greeting_container {
+  background: var(--color5);
+  height: 50vh;
+  padding: 15px;
+}
+.greeting {
+  color: var(--color1);
+}
+.slogan {
+  font-size: 60px;
+}
+.subslogan {
+  margin: 4px 0 12px 0;
+}
+.start_writing {
+  font-size: 16px;
+  border: var(--color4);
+  padding: 6px 12px;
+  color: var(--color2);
+  background: var(--color6);
+  border: 2px var(--color3);
+  border-radius: 15px;
+  font-weight: 100;
+}
+/* Your Topics */
+.your_topics_container {
+  display: flex;
+  margin: 32px 0 24px 0;
+  width: 100%;
+  overflow-x: scroll;
+  scroll-behavior: smooth;
+  scrollbar-color: blue;
+  scrollbar-face-color: red;
+  scrollbar-track-color: red;
+}
+.your_topics {
+  margin: auto 10px;
+  color: var(--color1);
+  font-size: 16px;
+  width: min-content;
+}
+.your_topics_topic {
+  background: var(--color5);
+  padding: 5px 15px;
+  margin: 0 5px;
+  border-radius: 20px;
+  color: var(--color1);
+}
+.your_topics_topic_title {
+  margin: 5px;
+}
+/* Feed  */
+.feed {
+}
+
+.post_top {
+  display: flex;
+  margin: 5px;
+  align-items: center;
+}
+.post_title {
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: none;
+  color: var(--color3);
+}
+.post_footer {
+  display: flex;
+  justify-content: space-between;
+}
+.footer_button {
+  background: transparent;
+}
+.button_svg path {
+  fill: white;
+}
+
+/* Trending,Footer etc.. */
+.trending_container {
+  background: red;
+  height: 100%;
+  width: 40%;
+  margin-top: 32px;
+}

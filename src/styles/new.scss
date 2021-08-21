@@ -1,0 +1,31 @@
+.new_container {
+  width: 90vw;
+  margin: 20px auto;
+  text-align: center;
+  font-size: 15px;
+}
+.new_post {
+  font-size: 30px;
+  font-weight: bold;
+}
+.new_title {
+  width: 50%;
+  border-bottom: 2px blue solid;
+  display: block;
+  margin: 10px auto;
+  padding: 5px;
+  background: transparent;
+  color: var(--color2);
+  &::placeholder {
+    color: var(--color2);
+    font-style: italic;
+  }
+}
+
+.editor {
+  width: 90%;
+  height: 50vh;
+  background: var(--color2);
+  cursor: text;
+  padding: 5px;
+}

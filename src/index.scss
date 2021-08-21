@@ -1,0 +1,35 @@
+@import 'styles/layout';
+@import 'styles/post';
+@import 'styles/main';
+@import 'styles/tag';
+@import 'styles/new';
+@import 'styles/login';
+@import 'styles/profile';
+
+/* Reset CSS */
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  outline: none;
+}
+
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background: var(--color6);
+  color: var(--color1);
+}
+/*  */
+
+:root {
+  --color1: rgba(255, 231, 231, 0.911);
+  --color2: rgba(231, 145, 129, 0.857);
+  --color3: rgba(255, 166, 0, 0.829);
+
+  --color4: rgba(255, 77, 77, 0.699);
+  --color5: rgba(112, 45, 0, 0.911);
+  --color6: rgba(65, 0, 0, 0.939);
+}

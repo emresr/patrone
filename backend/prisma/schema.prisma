@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id    Int     @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  email String  @unique
+  password String 
+  name  String?
+  posts Post[] @relation(name:"author")
+  liked Post[] @relation(name:"like")
+  followedTags Tag[] @relation(name:"followTag")
+  userType UserType @default(NORMAL)
+  until DateTime? 
+
+}
+model Post {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  abstract String? @default("Do amet ullamco nostrud adipisicing amet ut nostrud minim dolor velit...")
+  content   String?
+  author    User?    @relation(name:"author",fields: [authorId], references: [id])
+  authorId  Int?
+  published Boolean  @default(false)
+  likeCount Int @default(0)
+  likedBy    User[]    @relation(name:"like")
+  viewCount Int      @default(0)
+  tags Tag[]
+  isPublic Boolean @default(false)
+}
+
+model Tag {
+  id        Int      @id @default(autoincrement())
+  name String @unique
+  posts Post[]
+  followedBy User[] @relation(name:"followTag")
+}
+
+enum UserType {
+  AUTHOR
+  NORMAL
+}

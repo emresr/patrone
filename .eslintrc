@@ -1,0 +1,20 @@
+{
+  "extends": "react-app",
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "node": true,
+    "es6": true
+  },
+  "plugins": ["@typescript-eslint"],
+
+  "parserOptions": {
+    "ecmaVersion": 6
+  },
+  "rules": {
+    "no-console": "off",
+    "strict": ["error", "global"],
+    "curly": "warn",
+    "no-unused-vars": "off"
+  }
+}

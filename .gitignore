@@ -1,0 +1,12 @@
+node_modules/
+.env
+
+
+backend/node_modules/
+backend/prisma/migrations/
+backend/prisma/seed.ts
+backend/.env
+backend/.gitignore
+backend/dist
+
+.DS_Store
