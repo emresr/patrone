@@ -10,6 +10,8 @@ const checkToken: any = async (request: any, reply: any, next: any) => {
   }
 
   const userId: any = getTokenPayload(token);
+  request.userId = userId.userId;
+
   if (!userId) {
     reply.status(401).send({
       message: 'Unauthorized!',
@@ -59,35 +61,7 @@ const checkAuthor: any = async (request: any, reply: any, next: any) => {
     return Promise.reject(new Error());
   }
 };
-const checkPayment: any = async (request: any, reply: any, next: any) => {
-  const token: string = request.headers['x-access-token'];
-  if (!token) {
-    reply.status(403).send({
-      message: 'No token provided!',
-    });
-    return Promise.reject(new Error());
-  }
 
-  const userId: any = getTokenPayload(token);
-  if (!userId) {
-    reply.status(401).send({
-      message: 'Unauthorized!',
-    });
-    return Promise.reject(new Error());
-  } else {
-    const user: any = await prisma.user.findUnique({
-      where: {
-        id: Number(userId.userId),
-      },
-    });
-    if (!user) {
-      reply.status(401).send({
-        message: 'No such a user!',
-      });
-      return Promise.reject(new Error());
-    }
-  }
-};
 const checkSignup = async (request: any, reply: any) => {
   const { email }: any = request.body;
   const isExist = await prisma.user.findUnique({
@@ -102,4 +76,4 @@ const checkSignup = async (request: any, reply: any) => {
     return Promise.reject(new Error());
   }
 };
-export { checkToken, checkSignup, checkAuthor, checkPayment };
+export { checkToken, checkSignup, checkAuthor };

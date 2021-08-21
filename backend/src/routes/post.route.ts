@@ -1,6 +1,7 @@
 import { FastifyPluginCallback } from 'fastify';
 import postController from '../controllers/post.controller';
-import { checkAuthor, checkPayment, checkToken } from '../middleware/auth';
+import { checkAuthor, checkToken } from '../middleware/auth';
+import { checkPayment } from '../middleware/user';
 
 const authRoute: FastifyPluginCallback = (fastify, options, done) => {
   fastify.route({
@@ -14,7 +15,7 @@ const authRoute: FastifyPluginCallback = (fastify, options, done) => {
       .route({
         method: 'GET',
         url: '/feed',
-        preHandler: fastify.auth([checkToken]),
+        preHandler: fastify.auth([checkPayment]),
         handler: postController.getFeed,
       })
       .route({
@@ -26,7 +27,7 @@ const authRoute: FastifyPluginCallback = (fastify, options, done) => {
       .route({
         method: 'PUT',
         url: '/like/:id',
-        preHandler: fastify.auth([checkToken]),
+        preHandler: fastify.auth([checkPayment]),
         handler: postController.likePost,
       })
       // Author Routes

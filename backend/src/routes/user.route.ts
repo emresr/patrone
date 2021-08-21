@@ -16,6 +16,12 @@ const authRoute: FastifyPluginCallback = (fastify, options, done) => {
         url: '/user/:id/drafts',
         preHandler: fastify.auth([checkAuthor]),
         handler: userController.getDrafts,
+      })
+      .route({
+        method: 'PUT',
+        url: '/addpayment',
+        preHandler: fastify.auth([checkToken]),
+        handler: userController.addPayment,
       });
   });
   done();

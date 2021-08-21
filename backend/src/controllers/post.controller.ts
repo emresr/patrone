@@ -1,7 +1,7 @@
 import { RouteHandler } from 'fastify';
 import { prisma } from '../helpers/utils';
 
-const addPost: RouteHandler<{ Params: any }> = async (request: any, res) => {
+const addPost: RouteHandler<{ Params: any }> = async (request: any, reply) => {
   const { title, content, authorEmail }: any = request.body;
 
   /*   const tagData = tags
@@ -18,9 +18,9 @@ const addPost: RouteHandler<{ Params: any }> = async (request: any, res) => {
       author: { connect: { email: authorEmail } },
     },
   });
-  return res.send(result);
+  return reply.send(result);
 };
-const getFeed: RouteHandler<{ Params: any }> = async (request: any, res) => {
+const getFeed: RouteHandler<{ Params: any }> = async (request: any, reply) => {
   const { searchString, skip, take, orderBy }: any = request.query;
   const or = searchString
     ? {
@@ -41,18 +41,18 @@ const getFeed: RouteHandler<{ Params: any }> = async (request: any, res) => {
     },
   });
 
-  return res.send(posts);
+  return reply.send(posts);
 };
-const getPost: RouteHandler<{ Params: any }> = async (request: any, res) => {
+const getPost: RouteHandler<{ Params: any }> = async (request: any, reply) => {
   const { id }: any = request.params;
   const result = await prisma.post.findUnique({
     where: {
       id: Number(id),
     },
   });
-  return res.send(result);
+  return reply.send(result);
 };
-const editPost: RouteHandler<{ Params: any }> = async (request: any, res) => {
+const editPost: RouteHandler<{ Params: any }> = async (request: any, reply) => {
   const { id }: any = request.params;
   const { title, content }: any = request.body;
   const result = await prisma.post.update({
@@ -64,9 +64,9 @@ const editPost: RouteHandler<{ Params: any }> = async (request: any, res) => {
       content,
     },
   });
-  return res.send(result);
+  return reply.send(result);
 };
-const publishPost: RouteHandler<{ Params: any }> = async (request: any, res) => {
+const publishPost: RouteHandler<{ Params: any }> = async (request: any, reply) => {
   const { id }: any = request.params;
 
   try {
@@ -74,12 +74,12 @@ const publishPost: RouteHandler<{ Params: any }> = async (request: any, res) => 
       where: { id: Number(id) || undefined },
       data: { published: true },
     });
-    return res.status(200).send(updatedPost);
+    return reply.status(200).send(updatedPost);
   } catch (error) {
-    return res.status(404).send({ error: `Post with ID ${id} does not exist in the database` });
+    return reply.status(404).send({ error: `Post with ID ${id} does not exist in the database` });
   }
 };
-const likePost: RouteHandler<{ Params: any }> = async (request: any, res) => {
+const likePost: RouteHandler<{ Params: any }> = async (request: any, reply) => {
   const { id }: any = request.params;
   const { userId }: any = request.body;
 
@@ -101,9 +101,9 @@ const likePost: RouteHandler<{ Params: any }> = async (request: any, res) => {
       likedBy: true,
     },
   });
-  res.send(result);
+  reply.send(result);
 };
-const addView: RouteHandler<{ Params: any }> = async (request: any, res) => {
+const addView: RouteHandler<{ Params: any }> = async (request: any, reply) => {
   const { id }: any = request.params;
 
   try {
@@ -116,12 +116,12 @@ const addView: RouteHandler<{ Params: any }> = async (request: any, res) => {
       },
     });
 
-    return res.send(post);
+    return reply.send(post);
   } catch (error) {
-    return res.status(404).send({ error: `Post with ID ${id} does not exist in the database` });
+    return reply.status(404).send({ error: `Post with ID ${id} does not exist in the database` });
   }
 };
-const deletePost: RouteHandler<{ Params: any }> = async (request: any, res) => {
+const deletePost: RouteHandler<{ Params: any }> = async (request: any, reply) => {
   const { id }: any = request.params;
 
   const post = await prisma.post.delete({
@@ -129,7 +129,7 @@ const deletePost: RouteHandler<{ Params: any }> = async (request: any, res) => {
       id: Number(id),
     },
   });
-  return res.send(post);
+  return reply.send(post);
 };
 
 export default { addPost, getPost, publishPost, deletePost, likePost, editPost, addView, getFeed };

@@ -1,11 +1,10 @@
 const { PrismaClient } = require('@prisma/client');
-import { AsyncLocalStorage } from 'async_hooks';
 import fastify, { FastifyInstance, RouteShorthandOptions, RequestGenericInterface } from 'fastify';
 import fastifyAuth from 'fastify-auth';
 
-import authRoute from '../routes/auth.route';
-import userRoute from '../routes/user.route';
-import postRoute from '../routes/post.route';
+import authRoute from './routes/auth.route';
+import userRoute from './routes/user.route';
+import postRoute from './routes/post.route';
 
 const prisma = new PrismaClient();
 export { prisma };

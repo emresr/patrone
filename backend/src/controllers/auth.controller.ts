@@ -28,9 +28,7 @@ const login: RouteHandler<{ Params: any }> = async (request: any, reply) => {
       email: email,
     },
   });
-  console.log(user);
   if (!user) {
-    console.log('no user');
     return reply.status(404).send({ message: 'User not found.' });
   }
   const isValid = bcrypt.compareSync(password, user.password);
@@ -42,7 +40,6 @@ const login: RouteHandler<{ Params: any }> = async (request: any, reply) => {
   }
 
   const token: any = jwt.sign({ userId: user.id }, APP_SECRET, { expiresIn: 86400 * 30 });
-  console.log(token);
   return reply.status(200).send({ user, token });
 };
 
