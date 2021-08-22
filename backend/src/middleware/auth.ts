@@ -10,7 +10,6 @@ const checkToken: any = async (request: any, reply: any, next: any) => {
   }
 
   const userId: any = getTokenPayload(token);
-  request.userId = userId.userId;
 
   if (!userId) {
     reply.status(401).send({
@@ -18,6 +17,8 @@ const checkToken: any = async (request: any, reply: any, next: any) => {
     });
     return Promise.reject(new Error());
   } else {
+    request.userId = userId.userId;
+
     const user = await prisma.user.findUnique({
       where: {
         id: Number(userId.userId),

@@ -1,7 +1,8 @@
-import { RouteHandler } from 'fastify';
+import { RouteHandler, FastifyRequest, FastifyReply } from 'fastify';
 import { prisma } from '../helpers/utils';
+import { IAddPaymentBody, IGetDraftsBody, IGetUserBody } from '../types/userParams';
 
-const getUser: RouteHandler<{ Params: any }> = async (request: any, reply) => {
+const getUser: RouteHandler<{ Body: IGetUserBody }> = async (request: FastifyRequest, reply: FastifyReply) => {
   const { id }: any = request.params;
 
   const result = await prisma.user.findUnique({
@@ -15,9 +16,9 @@ const getUser: RouteHandler<{ Params: any }> = async (request: any, reply) => {
     },
   });
 
-  return reply.status(200).send(result);
+  return reply.send(result);
 };
-const getDrafts: RouteHandler<{ Params: any }> = async (request: any, reply) => {
+const getDrafts: RouteHandler<{ Body: IGetDraftsBody }> = async (request: FastifyRequest, reply: FastifyReply) => {
   const { id }: any = request.params;
 
   const drafts = await prisma.user
@@ -33,7 +34,7 @@ const getDrafts: RouteHandler<{ Params: any }> = async (request: any, reply) => 
   return reply.send(drafts);
 };
 
-const addPayment: RouteHandler<{ Params: any }> = async (request: any, reply) => {
+const addPayment: RouteHandler<{ Body: IAddPaymentBody }> = async (request: any, reply: FastifyReply) => {
   const userId: number = request.userId;
 
   const user: any = await prisma.user.findUnique({
@@ -42,7 +43,7 @@ const addPayment: RouteHandler<{ Params: any }> = async (request: any, reply) =>
     },
   });
 
-  const newUntil = user.until ? Date.parse(user.until) : Date.now();
+  const newUntil: number = user.until ? Date.parse(user.until) : Date.now();
 
   const result = await prisma.user.update({
     where: { id: userId },

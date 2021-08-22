@@ -1,9 +1,19 @@
-import { RouteHandler } from 'fastify';
+import { RouteHandler, FastifyRequest, FastifyReply } from 'fastify';
 import { prisma } from '../helpers/utils';
+import {
+  IAddPostBody,
+  IAddViewBody,
+  IDeletePostBody,
+  IEditPostBody,
+  IGetFeedBody,
+  IGetPostBody,
+  ILikePostBody,
+  IPublishPostBody,
+} from '../types/postParams';
 
-const addPost: RouteHandler<{ Params: any }> = async (request: any, reply) => {
-  const { title, content, authorEmail }: any = request.body;
-
+const addPost: RouteHandler<{ Body: IAddPostBody }> = async (request: any, reply: FastifyReply) => {
+  const { title, content, abstract } = request.body;
+  const userId: number = request.userId;
   /*   const tagData = tags
         ? tags.map((tag: any) => {
             return { name: tag || undefined };
@@ -14,13 +24,16 @@ const addPost: RouteHandler<{ Params: any }> = async (request: any, reply) => {
     data: {
       title,
       content,
+      abstract,
       // tags: { connect: { name: tagData } },
-      author: { connect: { email: authorEmail } },
+      author: {
+        connect: { id: userId },
+      },
     },
   });
   return reply.send(result);
 };
-const getFeed: RouteHandler<{ Params: any }> = async (request: any, reply) => {
+const getFeed: RouteHandler<{ Body: IGetFeedBody }> = async (request: FastifyRequest, reply: FastifyReply) => {
   const { searchString, skip, take, orderBy }: any = request.query;
   const or = searchString
     ? {
@@ -43,7 +56,7 @@ const getFeed: RouteHandler<{ Params: any }> = async (request: any, reply) => {
 
   return reply.send(posts);
 };
-const getPost: RouteHandler<{ Params: any }> = async (request: any, reply) => {
+const getPost: RouteHandler<{ Body: IGetPostBody }> = async (request: FastifyRequest, reply: FastifyReply) => {
   const { id }: any = request.params;
   const result = await prisma.post.findUnique({
     where: {
@@ -52,7 +65,7 @@ const getPost: RouteHandler<{ Params: any }> = async (request: any, reply) => {
   });
   return reply.send(result);
 };
-const editPost: RouteHandler<{ Params: any }> = async (request: any, reply) => {
+const editPost: RouteHandler<{ Body: IEditPostBody }> = async (request: FastifyRequest, reply: FastifyReply) => {
   const { id }: any = request.params;
   const { title, content }: any = request.body;
   const result = await prisma.post.update({
@@ -66,7 +79,7 @@ const editPost: RouteHandler<{ Params: any }> = async (request: any, reply) => {
   });
   return reply.send(result);
 };
-const publishPost: RouteHandler<{ Params: any }> = async (request: any, reply) => {
+const publishPost: RouteHandler<{ Body: IPublishPostBody }> = async (request: FastifyRequest, reply: FastifyReply) => {
   const { id }: any = request.params;
 
   try {
@@ -79,9 +92,9 @@ const publishPost: RouteHandler<{ Params: any }> = async (request: any, reply) =
     return reply.status(404).send({ error: `Post with ID ${id} does not exist in the database` });
   }
 };
-const likePost: RouteHandler<{ Params: any }> = async (request: any, reply) => {
+const likePost: RouteHandler<{ Body: ILikePostBody }> = async (request: any, reply: FastifyReply) => {
   const { id }: any = request.params;
-  const { userId }: any = request.body;
+  const userId: number = request.userId;
 
   const result = await prisma.post.update({
     where: {
@@ -103,7 +116,18 @@ const likePost: RouteHandler<{ Params: any }> = async (request: any, reply) => {
   });
   reply.send(result);
 };
-const addView: RouteHandler<{ Params: any }> = async (request: any, reply) => {
+
+const deletePost: RouteHandler<{ Body: IDeletePostBody }> = async (request: FastifyRequest, reply: FastifyReply) => {
+  const { id }: any = request.params;
+
+  const post = await prisma.post.delete({
+    where: {
+      id: Number(id),
+    },
+  });
+  return reply.send(post);
+};
+const addView: RouteHandler<{ Body: IAddViewBody }> = async (request: FastifyRequest, reply: FastifyReply) => {
   const { id }: any = request.params;
 
   try {
@@ -121,15 +145,4 @@ const addView: RouteHandler<{ Params: any }> = async (request: any, reply) => {
     return reply.status(404).send({ error: `Post with ID ${id} does not exist in the database` });
   }
 };
-const deletePost: RouteHandler<{ Params: any }> = async (request: any, reply) => {
-  const { id }: any = request.params;
-
-  const post = await prisma.post.delete({
-    where: {
-      id: Number(id),
-    },
-  });
-  return reply.send(post);
-};
-
 export default { addPost, getPost, publishPost, deletePost, likePost, editPost, addView, getFeed };

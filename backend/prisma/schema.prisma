@@ -39,7 +39,7 @@ model Post {
 
 model Tag {
   id        Int      @id @default(autoincrement())
-  name String @unique
+  name String @unique 
   posts Post[]
   followedBy User[] @relation(name:"followTag")
 }

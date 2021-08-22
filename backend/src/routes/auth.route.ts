@@ -1,6 +1,6 @@
 import { FastifyPluginCallback } from 'fastify';
 import authController from '../controllers/auth.controller';
-import { checkAuthor } from '../middleware/auth';
+import { checkAuthor, checkSignup } from '../middleware/auth';
 
 const authRoute: FastifyPluginCallback = (fastify, options, done) => {
   fastify.register(require('fastify-auth')).after(() => {
@@ -8,7 +8,7 @@ const authRoute: FastifyPluginCallback = (fastify, options, done) => {
       .route({
         method: 'POST',
         url: '/auth/signup',
-        preHandler: fastify.auth([checkAuthor]),
+        preHandler: fastify.auth([checkSignup]),
         handler: authController.signup,
       })
       .route({

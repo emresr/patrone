@@ -1,13 +1,18 @@
-import { RouteHandler } from 'fastify';
+import { RouteHandler, FastifyRequest, FastifyReply } from 'fastify';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 const APP_SECRET = process.env.APP_SECRET || 'prisma';
 import { prisma } from '../helpers/utils';
+import { User } from '../types/models';
+import { ISignupBody, ILoginBody } from '../types/authParams';
 
-const signup: RouteHandler<{ Params: any }> = async (request: any, reply) => {
+const signup: RouteHandler<{ Body: ISignupBody }> = async (
+  request: FastifyRequest,
+  reply: FastifyReply,
+): Promise<User> => {
   const { name, email, password }: any = request.body;
 
-  const hash = await bcrypt.hash(password, 10);
+  const hash: string = await bcrypt.hash(password, 10);
 
   const result = await prisma.user.create({
     data: {
@@ -20,7 +25,10 @@ const signup: RouteHandler<{ Params: any }> = async (request: any, reply) => {
   return reply.send(result);
 };
 
-const login: RouteHandler<{ Params: any }> = async (request: any, reply) => {
+const login: RouteHandler<{ Body: ILoginBody }> = async (
+  request: FastifyRequest,
+  reply: FastifyReply,
+): Promise<{ user: User; token: string }> => {
   const { email, password }: any = request.body;
 
   const user = await prisma.user.findUnique({
@@ -39,7 +47,7 @@ const login: RouteHandler<{ Params: any }> = async (request: any, reply) => {
     });
   }
 
-  const token: any = jwt.sign({ userId: user.id }, APP_SECRET, { expiresIn: 86400 * 30 });
+  const token = jwt.sign({ userId: user.id }, APP_SECRET, { expiresIn: 86400 * 30 });
   return reply.status(200).send({ user, token });
 };
 

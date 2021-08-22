@@ -1,1 +1,0 @@
-exports.auth = require('./auth');
