@@ -1,7 +1,7 @@
 import fastify, { FastifyInstance } from 'fastify';
 import fastifyAuth from 'fastify-auth';
 
-import { authRoute, userRoute, postRoute } from './routes';
+import { authRoute, userRoute, postRoute, tagRoute } from './routes';
 
 const app: FastifyInstance = fastify({ logger: false });
 
@@ -9,13 +9,15 @@ app.register((fastify, options, done) => {
   fastify
     .register(require('fastify-cors'), {
       origin: '*',
-      credentials: true,
+
+      credentials: false,
       methods: ['POST', 'GET', 'PUT', 'DELETE'],
-      allowedHeaders: ['Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'],
+      //    allowedHeaders: ['Origin,X-Requested-With,Content-Type,Accept,content-type,application/json', 'x-access-token'],
     })
     .register(authRoute)
     .register(userRoute)
     .register(postRoute)
+    .register(tagRoute)
     .register(require('fastify-swagger'), {
       routePrefix: '/documentation',
       swagger: {

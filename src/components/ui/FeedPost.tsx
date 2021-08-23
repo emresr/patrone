@@ -1,11 +1,12 @@
 import React, { useEffect, useState, FC } from 'react';
 
-import { Post } from '../../../types/';
+import { Post } from '../../types';
 import Avatar from 'boring-avatars';
 import { stampToDate } from '../../utils/time';
 import { AnyNsRecord } from 'dns';
 
 const FeedPost = (props: any) => {
+  console.log(props);
   const [saved, setSaved] = useState<boolean>(false);
   return (
     <div className="post_container">
@@ -19,12 +20,12 @@ const FeedPost = (props: any) => {
           />
         </div>
         <h1>
-          {props.author.name} <span>· {stampToDate(props.createdAt)}</span>
+          {props.props.author.email} <span>· {stampToDate(props.props.createdAt)}</span>
         </h1>
       </div>
       <div className="post_content">
-        <a className="post_title" href={`/post/${props.id}`}>
-          <h1>{props.title}</h1>
+        <a className="post_title" href={`/post/${props.props.id}`}>
+          <h1>{props.props.title}</h1>
         </a>{' '}
         <p>
           Let’s say you have thousands of microservices and you need the access these services by their domain names.

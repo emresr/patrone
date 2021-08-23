@@ -1,21 +1,27 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import React, { FC, useEffect, useState } from 'react';
-
+import { User } from '../../types';
+import { stampToDate } from '../../utils/time';
 const Layout: FC = ({ children }) => {
   const [user, setUser] = useState<any>();
-  //const token = localStorage.getItem("token")
-  const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImlhdCI6MTYyODk2OTI3NX0.1hTTcqiscp_xAv18xqiY-_VEC7gCJGygVHXtzDTEFuY';
+  const token = localStorage.getItem('token');
 
+  async function getUser() {
+    await axios
+      .get(`${process.env.REACT_APP_API_LINK}/me`, {
+        headers: { 'Content-Type': 'application/json', 'x-access-token': token },
+      })
+      .then((response) => {
+        setUser(response.data);
+        console.log('user', user);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
   useEffect(() => {
     getUser();
   }, []);
-
-  async function getUser() {
-    const tokenUser = await axios.post(`${process.env.REACT_APP_API_LINK}/checktoken`, token);
-    setUser(tokenUser);
-    console.log('use', tokenUser);
-  }
 
   return (
     <div className="layout">
@@ -23,8 +29,24 @@ const Layout: FC = ({ children }) => {
         <a className="logo" href="/">
           Patrone
         </a>
+        {user && (
+          <div>
+            <h1>{user.name}</h1>
+          </div>
+        )}
       </header>
-      <main className="">{children}</main>
+
+      <main className="layout_container">
+        <div className="main_container"> {children}</div>
+        <div className="trending_container">
+          {user && (
+            <div>
+              <h1>{user.name}</h1>
+              <h1>{stampToDate(user.until)}</h1>
+            </div>
+          )}
+        </div>
+      </main>
     </div>
   );
 };

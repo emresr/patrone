@@ -5,6 +5,7 @@
 @import 'styles/new';
 @import 'styles/login';
 @import 'styles/profile';
+@import 'styles/ui';
 
 /* Reset CSS */
 * {
@@ -25,11 +26,19 @@ body {
 /*  */
 
 :root {
-  --color1: rgba(255, 231, 231, 0.911);
-  --color2: rgba(231, 145, 129, 0.857);
-  --color3: rgba(255, 166, 0, 0.829);
+  --color1: #082032;
+  --color2: #716f81;
+  --color3: #055052;
 
-  --color4: rgba(255, 77, 77, 0.699);
-  --color5: rgba(112, 45, 0, 0.911);
-  --color6: rgba(65, 0, 0, 0.939);
+  --color4: #ff4c29;
+  --color5: #ffb740;
+  --color6: #e7e0c9;
+}
+.vertically-centered {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.horizontally-centered {
+  margin-right: auto;
+  margin-left: auto;
 }

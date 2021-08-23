@@ -1,7 +1,7 @@
 import { RouteHandler, FastifyRequest, FastifyReply } from 'fastify';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-const APP_SECRET = process.env.APP_SECRET || 'prisma';
+const APP_SECRET = process.env.APP_SECRET || 'patrone';
 import { prisma } from '../helpers/utils';
 import { User } from '../types/models';
 import { ISignupBody, ILoginBody } from '../types/authParams';

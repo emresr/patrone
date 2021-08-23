@@ -1,56 +1,62 @@
 import React, { useEffect, useState, FC } from 'react';
 import axios from 'axios';
-import { Post } from '../../types/';
+import { Post } from '../types';
 import Avatar from 'boring-avatars';
 import FeedPost from './ui/FeedPost';
-import Tag from './ui/Tag';
 
 const Main: React.FC<{}> = () => {
   const [posts, setPosts] = useState<Array<Post>>([]);
 
-  const fetchData = async () => {
-    const response = await axios.get(`${process.env.REACT_APP_API_LINK}/trending`, {
-      headers: { Accept: 'application/json' },
-    });
-    setPosts(response.data);
-  };
+  const token = localStorage.getItem('token');
+
+  async function fetchData() {
+    await axios
+      .get(`${process.env.REACT_APP_API_LINK}/feed`, {
+        headers: { 'Content-Type': 'application/json', 'x-access-token': token },
+      })
+      .then((response) => {
+        setPosts(response.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+
+  async function getTagFeed(topic: string) {
+    await axios
+      .get(`${process.env.REACT_APP_API_LINK}/tag/${topic}`, {
+        headers: { 'Content-Type': 'application/json', 'x-access-token': token },
+      })
+      .then((response) => {
+        setPosts(response.data.posts);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
 
   useEffect(() => {
     fetchData();
   }, []);
-  const topics: Array<string> = [
-    'Art',
-    'Cities',
-    'Cyber',
-    'Art',
-    'Cities',
-    'Cyber',
-    'Art',
-    'Cities',
-    'Cyber',
-    'Art',
-    'Cities',
-    'Cyber',
-  ];
 
-  const recommended: Array<string> = [
-    'Science',
-    'Biology',
-    'Chemistry',
-    'Science',
-    'Biology',
-    'Chemistry',
-    'Science',
-    'Biology',
-    'Chemistry',
-    'Science',
-    'Biology',
-    'Chemistry',
+  const topics: Array<string> = [
+    'React',
+    'Cities',
+    'Cyber',
+    'Art',
+    'Cities',
+    'Cyber',
+    'Art',
+    'Cities',
+    'Cyber',
+    'Art',
+    'Cities',
+    'Cyber',
   ];
 
   const [saved, setSaved] = useState<boolean>(false);
   return (
-    <div className="main_container">
+    <div>
       <div className="feed_container">
         {false && (
           <div className="greeting_container">
@@ -70,13 +76,20 @@ const Main: React.FC<{}> = () => {
           <div className="your_topics_container">
             <h1 className="your_topics">YOUR TOPICS</h1>
 
-            {topics.length > 0 && topics.map((topic) => <Tag topic={topic} />)}
+            {topics.length > 0 &&
+              topics.map((topic) => (
+                <button onClick={() => getTagFeed(topic)}>
+                  {' '}
+                  <div className="your_topics_topic">
+                    <h1 className="your_topics_topic_title">{topic}</h1>
+                  </div>
+                </button>
+              ))}
           </div>
 
           <div className="feed">{posts && posts.length > 0 && posts.map((post) => <FeedPost props={post} />)}</div>
         </div>
       </div>
-      <div className="trending_container">ewr</div>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import axios from 'axios';
 
@@ -11,7 +11,7 @@ const Login = () => {
       })
       .then((response) => {
         if (response.data.token) {
-          localStorage.setItem('user', JSON.stringify(response.data));
+          localStorage.setItem('token', response.data.token);
         }
         return response.data;
       })
@@ -53,7 +53,7 @@ const Login = () => {
           }}
         />
       </form>
-      <button onClick={Submit}>yo</button>
+      <button onClick={Submit}>Login</button>
       {errorMessage && <h1>{errorMessage}</h1>}
     </div>
   );

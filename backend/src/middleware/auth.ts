@@ -8,9 +8,7 @@ const checkToken: any = async (request: any, reply: any, next: any) => {
     });
     return Promise.reject(new Error());
   }
-
   const userId: any = getTokenPayload(token);
-
   if (!userId) {
     reply.status(401).send({
       message: 'Unauthorized!',
@@ -29,8 +27,9 @@ const checkToken: any = async (request: any, reply: any, next: any) => {
         message: 'Unauthorized!',
       });
       return Promise.reject(new Error());
+    } else {
+      request.user = user;
     }
-    request.user = user;
   }
 };
 
@@ -43,7 +42,7 @@ const checkAuthor: any = async (request: any, reply: any, next: any) => {
     return Promise.reject(new Error());
   }
 
-  const userId: string = getTokenPayload(token);
+  const userId = getTokenPayload(token);
   if (!userId) {
     reply.status(401).send({
       message: 'Unauthorized!',

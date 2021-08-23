@@ -7,6 +7,12 @@ const authRoute: FastifyPluginCallback = (fastify, options, done) => {
     fastify
       .route({
         method: 'GET',
+        url: '/me',
+        preHandler: fastify.auth([checkToken]),
+        handler: userController.getMe,
+      })
+      .route({
+        method: 'GET',
         url: '/user/:id',
         preHandler: fastify.auth([checkAuthor]),
         handler: userController.getUser,

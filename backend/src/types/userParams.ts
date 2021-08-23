@@ -5,3 +5,4 @@ export interface IGetDraftsBody {
   id: number;
 }
 export interface IAddPaymentBody {}
+export interface IGetMeBody {}

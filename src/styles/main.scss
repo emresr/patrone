@@ -1,12 +1,8 @@
-.main_container {
-  padding: 0 64 px;
-  display: flex;
-}
 /* Feed */
 .feed_container {
-  width: 60%;
+  width: 100%;
+  height: 100vh;
   padding: 0 16px;
-  border-right: 1px solid gray;
 }
 .greeting_container {
   background: var(--color5);
@@ -35,8 +31,8 @@
 /* Your Topics */
 .your_topics_container {
   display: flex;
-  margin: 32px 0 24px 0;
-  width: 100%;
+  margin: 32px auto 24px auto;
+  width: 90%;
   overflow-x: scroll;
   scroll-behavior: smooth;
   scrollbar-color: blue;
@@ -54,11 +50,15 @@
   padding: 5px 15px;
   margin: 0 5px;
   border-radius: 20px;
-  color: var(--color1);
+  color: var(--color3);
+  font-weight: 900;
+  font-size: 15px;
+  cursor: pointer;
 }
 .your_topics_topic_title {
   margin: 5px;
 }
+
 /* Feed  */
 .feed {
 }
@@ -83,12 +83,4 @@
 }
 .button_svg path {
   fill: white;
-}
-
-/* Trending,Footer etc.. */
-.trending_container {
-  background: red;
-  height: 100%;
-  width: 40%;
-  margin-top: 32px;
 }

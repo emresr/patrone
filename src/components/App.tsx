@@ -1,8 +1,6 @@
 import React, { FC } from 'react';
 import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
 
-import { Routes } from '../../types';
-
 import Layout from './layout';
 
 import Post from './post';
@@ -12,9 +10,6 @@ import New from './new';
 
 import Login from './login';
 
-interface Props {
-  path: Routes;
-}
 const App: FC<{}> = () => {
   return (
     <Layout>
