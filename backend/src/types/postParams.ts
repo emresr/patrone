@@ -34,3 +34,6 @@ export interface IDeletePostBody {
 export interface IAddViewBody {
   id: number;
 }
+export interface ISavePostBody {
+  id: number;
+}

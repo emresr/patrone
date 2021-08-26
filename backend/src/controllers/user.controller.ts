@@ -4,18 +4,18 @@ import { User } from '../types/models';
 import { IAddPaymentBody, IGetDraftsBody, IGetMeBody, IGetUserBody } from '../types/userParams';
 
 const getMe: RouteHandler<{ Body: IGetMeBody }> = async (request: any, reply: FastifyReply) => {
-  const result: User = request.user;
+  const userId: number = request.userId;
 
-  /*   const result = await prisma.user.findUnique({
+  const result = await prisma.user.findUnique({
     where: {
-      id: Number(id),
+      id: userId,
     },
     include: {
-      posts: true,
       liked: true,
+      saved: true,
       followedTags: true,
     },
-  }); */
+  });
 
   return reply.send(result);
 };
@@ -53,7 +53,7 @@ const getDrafts: RouteHandler<{ Body: IGetDraftsBody }> = async (request: Fastif
 
 const addPayment: RouteHandler<{ Body: IAddPaymentBody }> = async (request: any, reply: FastifyReply) => {
   const userId: number = request.userId;
-
+  console.log(userId);
   const user: any = await prisma.user.findUnique({
     where: {
       id: userId,

@@ -9,6 +9,7 @@ import {
   IGetPostBody,
   ILikePostBody,
   IPublishPostBody,
+  ISavePostBody,
 } from '../types/postParams';
 
 const addPost: RouteHandler<{ Body: IAddPostBody }> = async (request: any, reply: FastifyReply) => {
@@ -62,7 +63,14 @@ const getPost: RouteHandler<{ Body: IGetPostBody }> = async (request: FastifyReq
     where: {
       id: Number(id),
     },
+    include: {
+      likedBy: true,
+      tags: true,
+    },
   });
+  if (!result) {
+    reply.status(404).send('No such a post');
+  }
   return reply.send(result);
 };
 const editPost: RouteHandler<{ Body: IEditPostBody }> = async (request: FastifyRequest, reply: FastifyReply) => {
@@ -145,4 +153,18 @@ const addView: RouteHandler<{ Body: IAddViewBody }> = async (request: FastifyReq
     return reply.status(404).send({ error: `Post with ID ${id} does not exist in the database` });
   }
 };
-export default { addPost, getPost, publishPost, deletePost, likePost, editPost, addView, getFeed };
+const savePost: RouteHandler<{ Body: ISavePostBody }> = async (request: any, reply: FastifyReply) => {
+  const { id }: any = request.params;
+  const userId: number = request.userId;
+
+  const result = await prisma.post.update({
+    where: {
+      id: Number(id),
+    },
+    data: {
+      savedBy: { connect: { id: userId } },
+    },
+  });
+  reply.send(result);
+};
+export default { addPost, getPost, publishPost, deletePost, likePost, editPost, addView, getFeed, savePost };

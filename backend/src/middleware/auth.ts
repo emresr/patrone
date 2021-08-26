@@ -16,7 +16,6 @@ const checkToken: any = async (request: any, reply: any, next: any) => {
     return Promise.reject(new Error());
   } else {
     request.userId = userId.userId;
-
     const user = await prisma.user.findUnique({
       where: {
         id: Number(userId.userId),

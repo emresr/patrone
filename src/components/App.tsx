@@ -7,8 +7,7 @@ import Post from './post';
 import Main from './main';
 import Tag from './tag';
 import New from './new';
-
-import Login from './login';
+import NotFound from './ui/NotFound';
 
 const App: FC<{}> = () => {
   return (
@@ -20,7 +19,8 @@ const App: FC<{}> = () => {
 
           <Route exact path="/post/:id" component={Post} />
           <Route exact path="/tag/:name" component={Tag} />
-          <Route exact path="/login" component={Login} />
+
+          <Route component={NotFound} />
         </Switch>
       </BrowserRouter>
     </Layout>

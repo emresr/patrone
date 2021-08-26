@@ -18,7 +18,7 @@ model User {
   followedTags Tag[] @relation(name:"followTag")
   userType UserType @default(NORMAL)
   until DateTime? 
-
+  saved Post[] @relation(name:"saved")
 }
 model Post {
   id        Int      @id @default(autoincrement())
@@ -35,6 +35,8 @@ model Post {
   viewCount Int      @default(0)
   tags Tag[]
   isPublic Boolean @default(false)
+  savedBy User[] @relation(name:"saved")
+
 }
 
 model Tag {

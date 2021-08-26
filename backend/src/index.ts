@@ -9,10 +9,17 @@ app.register((fastify, options, done) => {
   fastify
     .register(require('fastify-cors'), {
       origin: '*',
-
-      credentials: false,
+      credentials: true,
       methods: ['POST', 'GET', 'PUT', 'DELETE'],
-      //    allowedHeaders: ['Origin,X-Requested-With,Content-Type,Accept,content-type,application/json', 'x-access-token'],
+      /*   allowedHeaders: [
+        'Origin',
+        'X-Requested-With',
+        'Content-Type',
+        'Accept',
+        'content-type',
+        'application/json',
+        'x-access-token',
+      ], */
     })
     .register(authRoute)
     .register(userRoute)

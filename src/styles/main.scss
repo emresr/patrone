@@ -44,16 +44,27 @@
   color: var(--color1);
   font-size: 16px;
   width: min-content;
+  background: transparent;
+}
+.your_topics_button {
+  background: var(--color5);
+  padding: 5px 15px;
+  margin: 0 5px;
+  border-radius: 20px;
 }
 .your_topics_topic {
   background: var(--color5);
   padding: 5px 15px;
   margin: 0 5px;
   border-radius: 20px;
-  color: var(--color3);
+  color: var(--color1);
   font-weight: 900;
   font-size: 15px;
   cursor: pointer;
+
+  &:hover {
+    min-width: 200px;
+  }
 }
 .your_topics_topic_title {
   margin: 5px;

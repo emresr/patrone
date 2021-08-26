@@ -21,8 +21,39 @@
   padding: 0px;
   border-right: 1px solid gray;
 }
-.trending_container {
-  background: red;
-  height: 100%;
+
+/* User  */
+.user_container {
+  height: 100vh;
   width: 40%;
+  display: flex;
+  align-items: center;
+}
+.user {
+  position: fixed;
+  margin-left: 18px;
+}
+.user_name_container {
+  display: flex;
+  margin: 0 0 10px -3px;
+}
+.user_name {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--color1);
+  margin: auto 10px;
+}
+.since {
+  margin: 5px 3px;
+  font-weight: 700;
+  font-size: 15px;
+}
+/* Read Later */
+.read_later_container {
+  margin-top: 10px;
+}
+.read_later_title {
+  font-weight: 700;
+  color: var(--color5);
+  font-size: 20px;
 }

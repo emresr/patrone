@@ -30,6 +30,12 @@ const authRoute: FastifyPluginCallback = (fastify, options, done) => {
         preHandler: fastify.auth([checkPayment]),
         handler: postController.likePost,
       })
+      .route({
+        method: 'PUT',
+        url: '/save/:id',
+        preHandler: fastify.auth([checkPayment]),
+        handler: postController.savePost,
+      })
       // Author Routes
       .route({
         method: 'POST',

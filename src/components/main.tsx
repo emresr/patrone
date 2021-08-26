@@ -6,7 +6,7 @@ import FeedPost from './ui/FeedPost';
 
 const Main: React.FC<{}> = () => {
   const [posts, setPosts] = useState<Array<Post>>([]);
-
+  const [selectedTag, setSelectedTag] = useState<string>('');
   const token = localStorage.getItem('token');
 
   async function fetchData() {
@@ -54,7 +54,6 @@ const Main: React.FC<{}> = () => {
     'Cyber',
   ];
 
-  const [saved, setSaved] = useState<boolean>(false);
   return (
     <div>
       <div className="feed_container">
@@ -78,15 +77,30 @@ const Main: React.FC<{}> = () => {
 
             {topics.length > 0 &&
               topics.map((topic) => (
-                <button onClick={() => getTagFeed(topic)}>
-                  {' '}
-                  <div className="your_topics_topic">
-                    <h1 className="your_topics_topic_title">{topic}</h1>
-                  </div>
+                <button
+                  onClick={() => {
+                    getTagFeed(topic);
+                    setSelectedTag(topic);
+                  }}
+                  className="your_topics_topic"
+                >
+                  <h1 className="your_topics_topic_title">{topic}</h1>
                 </button>
               ))}
           </div>
-
+          {selectedTag && (
+            <div>
+              <h1>Selected Tag: {selectedTag}</h1>
+              <button
+                onClick={() => {
+                  fetchData();
+                  setSelectedTag('');
+                }}
+              >
+                nah
+              </button>
+            </div>
+          )}
           <div className="feed">{posts && posts.length > 0 && posts.map((post) => <FeedPost props={post} />)}</div>
         </div>
       </div>
