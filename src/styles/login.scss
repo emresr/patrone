@@ -1,5 +1,54 @@
-.login_container {
+.auth_container {
   margin: 20px auto;
-  text-align: center;
   font-size: 15px;
+  height: 400px;
+  width: 600px;
+  background: red;
+  display: flex;
+  border-radius: 20%;
+  border: none;
+  text-align: center;
+}
+
+.form_container {
+  height: 100%;
+  width: 100%;
+  background: var(--color5);
+}
+.auth_title {
+  font-weight: 700;
+  color: var(--color4);
+  font-size: 30px;
+}
+.select_container {
+  width: 100%;
+  margin-bottom: 50px;
+}
+.auth_button {
+  width: 50%;
+  height: 30px;
+  background: var(--color4);
+  color: var(--color3);
+  font-weight: 600;
+  &.selected {
+    background: var(--color5);
+  }
+}
+.auth_input {
+  background: transparent;
+  border: none;
+  border-bottom: 2px black solid;
+  display: block;
+  margin: 20px auto;
+  padding: 0 5px;
+  &::placeholder {
+    color: var(--color2);
+    font-style: italic;
+  }
+}
+.submit_button {
+  padding: 4px;
+  border-radius: 5px;
+  background: var(--color4);
+  color: var(--color5);
 }

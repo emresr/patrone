@@ -35,7 +35,9 @@ const Layout: FC = ({ children }) => {
         <a className="logo" href="/">
           Patrone
         </a>
-        {user ? (
+        {!user ? (
+          <div></div>
+        ) : user.name ? (
           <div>
             <h1 className="vertically-centered">{user.name}</h1>
             <button
@@ -57,10 +59,7 @@ const Layout: FC = ({ children }) => {
       {loading ? (
         <div>Loading</div>
       ) : !user ? (
-        <div>
-          <h1>Please login and make payment to see content. </h1>
-          <Login />
-        </div>
+        <Login />
       ) : !user.until || Date.now() > Date.parse(user.until) ? (
         <Payment />
       ) : (
