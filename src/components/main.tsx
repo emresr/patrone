@@ -1,12 +1,14 @@
 import React, { useEffect, useState, FC } from 'react';
 import axios from 'axios';
-import { Post } from '../types';
+import { Post, Tag } from '../types';
 import Avatar from 'boring-avatars';
 import FeedPost from './ui/FeedPost';
 
 const Main: React.FC<{}> = () => {
   const [posts, setPosts] = useState<Array<Post>>([]);
+  const [tags, setTags] = useState<Array<Tag>>([]);
   const [selectedTag, setSelectedTag] = useState<string>('');
+
   const token = localStorage.getItem('token');
 
   async function fetchData() {
@@ -16,6 +18,18 @@ const Main: React.FC<{}> = () => {
       })
       .then((response) => {
         setPosts(response.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
+  async function fetchTags() {
+    await axios
+      .get(`${process.env.REACT_APP_API_LINK}/me/tags`, {
+        headers: { 'Content-Type': 'application/json', 'x-access-token': token },
+      })
+      .then((response) => {
+        setTags(response.data.followedTags);
       })
       .catch((err) => {
         console.error(err);
@@ -37,22 +51,8 @@ const Main: React.FC<{}> = () => {
 
   useEffect(() => {
     fetchData();
+    fetchTags();
   }, []);
-
-  const topics: Array<string> = [
-    'React',
-    'Cities',
-    'Cyber',
-    'Art',
-    'Cities',
-    'Cyber',
-    'Art',
-    'Cities',
-    'Cyber',
-    'Art',
-    'Cities',
-    'Cyber',
-  ];
 
   return (
     <div>
@@ -75,32 +75,23 @@ const Main: React.FC<{}> = () => {
           <div className="your_topics_container">
             <h1 className="your_topics">YOUR TOPICS</h1>
 
-            {topics.length > 0 &&
-              topics.map((topic) => (
+            {tags.length > 0 ? (
+              tags.map((tag) => (
                 <button
                   onClick={() => {
-                    getTagFeed(topic);
-                    setSelectedTag(topic);
+                    getTagFeed(tag.name);
+                    setSelectedTag(tag.name);
                   }}
-                  className="your_topics_topic"
+                  className={`your_topics_topic ${selectedTag === tag.name && 'selected_tag'} `}
                 >
-                  <h1 className="your_topics_topic_title">{topic}</h1>
+                  <h1 className="your_topics_topic_title">{tag.name}</h1>
                 </button>
-              ))}
+              ))
+            ) : (
+              <div>Start following tags.</div>
+            )}
           </div>
-          {selectedTag && (
-            <div>
-              <h1>Selected Tag: {selectedTag}</h1>
-              <button
-                onClick={() => {
-                  fetchData();
-                  setSelectedTag('');
-                }}
-              >
-                nah
-              </button>
-            </div>
-          )}
+
           <div className="feed">{posts && posts.length > 0 && posts.map((post) => <FeedPost props={post} />)}</div>
         </div>
       </div>

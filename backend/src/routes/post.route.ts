@@ -4,14 +4,14 @@ import { checkAuthor, checkToken } from '../middleware/auth';
 import { checkPayment } from '../middleware/user';
 
 const authRoute: FastifyPluginCallback = (fastify, options, done) => {
-  fastify.route({
-    method: 'PUT',
-    url: '/post/:id/addview',
-    handler: postController.addView,
-  });
-
   fastify.register(require('fastify-auth')).after(() => {
     fastify
+      .route({
+        method: 'PUT',
+        url: '/post/:id/addview',
+        preHandler: fastify.auth([checkToken]),
+        handler: postController.addView,
+      })
       .route({
         method: 'GET',
         url: '/feed',

@@ -9,7 +9,7 @@ app.register((fastify, options, done) => {
   fastify
     .register(require('fastify-cors'), {
       origin: '*',
-      credentials: true,
+      credentials: false,
       methods: ['POST', 'GET', 'PUT', 'DELETE'],
       /*   allowedHeaders: [
         'Origin',

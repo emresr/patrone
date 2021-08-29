@@ -6,3 +6,4 @@ export interface IGetDraftsBody {
 }
 export interface IAddPaymentBody {}
 export interface IGetMeBody {}
+export interface IGetMyTagsBody {}

@@ -65,7 +65,9 @@ const getPost: RouteHandler<{ Body: IGetPostBody }> = async (request: FastifyReq
     },
     include: {
       likedBy: true,
+      savedBy: true,
       tags: true,
+      author: true,
     },
   });
   if (!result) {
@@ -104,20 +106,48 @@ const likePost: RouteHandler<{ Body: ILikePostBody }> = async (request: any, rep
   const { id }: any = request.params;
   const userId: number = request.userId;
 
+  const isLiked: any = await prisma.post.findUnique({
+    where: { id: Number(id) },
+    select: { likedBy: true },
+  });
+  const likeList = isLiked.likedBy;
+  let like = false;
+
+  if (likeList.length > 0) {
+    for (let i = 0; i < likeList.length; i++) {
+      if (likeList[i].id === userId) {
+        like = true;
+      }
+    }
+  }
+
+  const pushUpdate = like
+    ? {
+        likedBy: {
+          disconnect: {
+            id: Number(userId),
+          },
+        },
+        likeCount: {
+          decrement: 1,
+        },
+      }
+    : {
+        likedBy: {
+          connect: {
+            id: Number(userId),
+          },
+        },
+        likeCount: {
+          increment: 1,
+        },
+      };
+
   const result = await prisma.post.update({
     where: {
       id: Number(id),
     },
-    data: {
-      likedBy: {
-        connect: {
-          id: Number(userId),
-        },
-      },
-      likeCount: {
-        increment: 1,
-      },
-    },
+    data: pushUpdate,
     include: {
       likedBy: true,
     },
@@ -137,7 +167,7 @@ const deletePost: RouteHandler<{ Body: IDeletePostBody }> = async (request: Fast
 };
 const addView: RouteHandler<{ Body: IAddViewBody }> = async (request: FastifyRequest, reply: FastifyReply) => {
   const { id }: any = request.params;
-
+  console.log(id);
   try {
     const post = await prisma.post.update({
       where: { id: Number(id) },
@@ -147,7 +177,6 @@ const addView: RouteHandler<{ Body: IAddViewBody }> = async (request: FastifyReq
         },
       },
     });
-
     return reply.send(post);
   } catch (error) {
     return reply.status(404).send({ error: `Post with ID ${id} does not exist in the database` });
@@ -157,14 +186,31 @@ const savePost: RouteHandler<{ Body: ISavePostBody }> = async (request: any, rep
   const { id }: any = request.params;
   const userId: number = request.userId;
 
+  const isSaved: any = await prisma.post.findUnique({
+    where: { id: Number(id) },
+    select: { savedBy: true },
+  });
+
+  const saveList = isSaved.savedBy;
+  let save = false;
+  if (saveList.length > 0) {
+    for (let i = 0; i < saveList.length; i++) {
+      if (saveList[i].id === userId) {
+        save = true;
+      }
+    }
+  }
+
+  const pushUpdate = save ? { disconnect: { id: userId } } : { connect: { id: userId } };
   const result = await prisma.post.update({
     where: {
       id: Number(id),
     },
     data: {
-      savedBy: { connect: { id: userId } },
+      savedBy: pushUpdate,
     },
   });
+  console.log(result);
   reply.send(result);
 };
 export default { addPost, getPost, publishPost, deletePost, likePost, editPost, addView, getFeed, savePost };

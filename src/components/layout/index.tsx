@@ -37,7 +37,7 @@ const Layout: FC = ({ children }) => {
         </a>
         {!user ? (
           <div></div>
-        ) : user.name ? (
+        ) : user.id ? (
           <div>
             <h1 className="vertically-centered">{user.name}</h1>
             <button
@@ -75,6 +75,7 @@ const Layout: FC = ({ children }) => {
                       size={45}
                       name="Maria Mitchell"
                       variant="beam"
+                      
                       colors={['#92A1C6', '#146A7C', '#F0AB3D', '#C271B4', '#C20D90']}
                     />
                     <h1 className="user_name">{user.name}</h1>
@@ -86,7 +87,7 @@ const Layout: FC = ({ children }) => {
                     {user.saved.map((post: Post, index: number) => (
                       <h1 key={post.id}>
                         <span>{index + 1}.</span>
-                        {post.title}
+                        <a href={`/post/${post.id}`}>{post.title}</a>
                       </h1>
                     ))}
                   </div>

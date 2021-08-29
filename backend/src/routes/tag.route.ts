@@ -17,6 +17,12 @@ const tagRoute: FastifyPluginCallback = (fastify, options, done) => {
         url: '/follow/:name',
         preHandler: fastify.auth([checkPayment]),
         handler: tagController.followTag,
+      })
+      .route({
+        method: 'GET',
+        url: '/isFollowing/:name',
+        preHandler: fastify.auth([checkPayment]),
+        handler: tagController.getMyTagInfo,
       });
   });
   done();

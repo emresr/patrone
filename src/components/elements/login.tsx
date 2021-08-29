@@ -21,7 +21,7 @@ const Login = () => {
   };
   const signupService = (email: string, password: string, name?: string) => {
     return axios
-      .post(`${process.env.REACT_APP_API_LINK}/auth/login`, {
+      .post(`${process.env.REACT_APP_API_LINK}/auth/signup`, {
         email,
         password,
         name,

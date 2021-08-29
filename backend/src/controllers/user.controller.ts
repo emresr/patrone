@@ -1,7 +1,7 @@
 import { RouteHandler, FastifyRequest, FastifyReply } from 'fastify';
 import { prisma } from '../helpers/utils';
 import { User } from '../types/models';
-import { IAddPaymentBody, IGetDraftsBody, IGetMeBody, IGetUserBody } from '../types/userParams';
+import { IAddPaymentBody, IGetDraftsBody, IGetMeBody, IGetUserBody, IGetMyTagsBody } from '../types/userParams';
 
 const getMe: RouteHandler<{ Body: IGetMeBody }> = async (request: any, reply: FastifyReply) => {
   const userId: number = request.userId;
@@ -35,6 +35,21 @@ const getUser: RouteHandler<{ Body: IGetUserBody }> = async (request: FastifyReq
 
   return reply.send(result);
 };
+const getMyTags: RouteHandler<{ Body: IGetMyTagsBody }> = async (request: any, reply: FastifyReply) => {
+  const userId: number = request.userId;
+
+  const result = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      followedTags: true,
+    },
+  });
+
+  return reply.send(result);
+};
+
 const getDrafts: RouteHandler<{ Body: IGetDraftsBody }> = async (request: FastifyRequest, reply: FastifyReply) => {
   const { id }: any = request.params;
 
@@ -72,4 +87,4 @@ const addPayment: RouteHandler<{ Body: IAddPaymentBody }> = async (request: any,
   return reply.send(result);
 };
 
-export default { getUser, getDrafts, getMe, addPayment };
+export default { getUser, getDrafts, getMe, addPayment, getMyTags };

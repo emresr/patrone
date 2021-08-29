@@ -46,12 +46,7 @@
   width: min-content;
   background: transparent;
 }
-.your_topics_button {
-  background: var(--color5);
-  padding: 5px 15px;
-  margin: 0 5px;
-  border-radius: 20px;
-}
+
 .your_topics_topic {
   background: var(--color5);
   padding: 5px 15px;
@@ -65,14 +60,15 @@
   &:hover {
     min-width: 200px;
   }
+  &.selected_tag {
+    border: 3px var(--color4) solid;
+  }
 }
 .your_topics_topic_title {
   margin: 5px;
 }
 
 /* Feed  */
-.feed {
-}
 
 .post_top {
   display: flex;

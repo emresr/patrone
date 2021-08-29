@@ -6,7 +6,7 @@
 @import 'styles/login';
 @import 'styles/profile';
 @import 'styles/ui';
-
+@import 'styles/payment';
 /* Reset CSS */
 * {
   margin: 0;
@@ -16,6 +16,7 @@
   font: inherit;
   vertical-align: baseline;
   outline: none;
+  text-decoration: none;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');

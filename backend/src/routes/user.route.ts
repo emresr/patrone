@@ -13,6 +13,12 @@ const authRoute: FastifyPluginCallback = (fastify, options, done) => {
       })
       .route({
         method: 'GET',
+        url: '/me/tags',
+        preHandler: fastify.auth([checkToken]),
+        handler: userController.getMyTags,
+      })
+      .route({
+        method: 'GET',
         url: '/user/:id',
         preHandler: fastify.auth([checkAuthor]),
         handler: userController.getUser,
