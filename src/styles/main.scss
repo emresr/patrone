@@ -57,9 +57,6 @@
   font-size: 15px;
   cursor: pointer;
 
-  &:hover {
-    min-width: 200px;
-  }
   &.selected_tag {
     border: 3px var(--color4) solid;
   }
@@ -72,6 +69,7 @@
 
 .post_top {
   display: flex;
+  justify-content: space-between;
   margin: 5px;
   align-items: center;
 }
@@ -80,14 +78,4 @@
   font-weight: bold;
   text-decoration: none;
   color: var(--color3);
-}
-.post_footer {
-  display: flex;
-  justify-content: space-between;
-}
-.footer_button {
-  background: transparent;
-}
-.button_svg path {
-  fill: white;
 }

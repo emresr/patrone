@@ -5,6 +5,7 @@ import { stampToDate } from '../../utils/time';
 import Login from '../elements/login';
 import Payment from '../elements/payment';
 import Avatar from 'boring-avatars';
+
 const Layout: FC = ({ children }) => {
   const [user, setUser] = useState<any>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -37,27 +38,34 @@ const Layout: FC = ({ children }) => {
         </a>
         {!user ? (
           <div></div>
-        ) : user.id ? (
-          <div>
-            <h1 className="vertically-centered">{user.name}</h1>
-            <button
-              onClick={() => {
-                localStorage.removeItem('token');
-                window.location.reload();
-              }}
-            >
-              Logout
-            </button>{' '}
-          </div>
         ) : (
-          <div>
-            <a href="/login">Login</a>
-          </div>
+          user.id && (
+            <div className="header_logged">
+              <Avatar
+                size={30}
+                name="Maria Mitchell"
+                variant="beam"
+                colors={['#92A1C6', '#146A7C', '#F0AB3D', '#C271B4', '#C20D90']}
+              />
+              <h1 className="vertically-centered header_username">{user.name}</h1>
+              <button
+                className="header_button"
+                onClick={() => {
+                  localStorage.removeItem('token');
+                  window.location.reload();
+                }}
+              >
+                Logout
+              </button>{' '}
+            </div>
+          )
         )}
       </header>
 
       {loading ? (
-        <div>Loading</div>
+        <div className="loading_container">
+          <div className="loading"></div>
+        </div>
       ) : !user ? (
         <Login />
       ) : !user.until || Date.now() > Date.parse(user.until) ? (
@@ -75,25 +83,25 @@ const Layout: FC = ({ children }) => {
                       size={45}
                       name="Maria Mitchell"
                       variant="beam"
-                      
                       colors={['#92A1C6', '#146A7C', '#F0AB3D', '#C271B4', '#C20D90']}
                     />
                     <h1 className="user_name">{user.name}</h1>
                   </div>
                   <h1 className="since">Member since {stampToDate(user.createdAt)}</h1>
-                  <h1 className="since">Payment lasts {stampToDate(user.until)}</h1>
+                  <h1 className="since">Subscription lasts {stampToDate(user.until)}</h1>
                   <div className="read_later_container">
                     <h1 className="read_later_title">Read later</h1>
-                    {user.saved.map((post: Post, index: number) => (
-                      <h1 key={post.id}>
-                        <span>{index + 1}.</span>
-                        <a href={`/post/${post.id}`}>{post.title}</a>
-                      </h1>
-                    ))}
+                    {user.saved.length > 0 &&
+                      user.saved.map((post: Post, index: number) => (
+                        <h1 key={post.id}>
+                          <span>{index + 1}.</span>
+                          <a href={`/post/${post.id}`}>{post.title}</a>
+                        </h1>
+                      ))}
                   </div>
                 </div>
               )}
-              <div>
+              <div className="footer">
                 <h1>Patrone - 2021</h1>
               </div>
             </div>

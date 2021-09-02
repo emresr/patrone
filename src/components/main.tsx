@@ -36,9 +36,9 @@ const Main: React.FC<{}> = () => {
       });
   }
 
-  async function getTagFeed(topic: string) {
+  async function getTagFeed(tag: string) {
     await axios
-      .get(`${process.env.REACT_APP_API_LINK}/tag/${topic}`, {
+      .get(`${process.env.REACT_APP_API_LINK}/tag/${tag}`, {
         headers: { 'Content-Type': 'application/json', 'x-access-token': token },
       })
       .then((response) => {
@@ -49,6 +49,17 @@ const Main: React.FC<{}> = () => {
       });
   }
 
+  function clickTag(tag: string) {
+    if (selectedTag !== tag) {
+      setSelectedTag(tag);
+      getTagFeed(tag);
+    } else {
+      setSelectedTag('');
+
+      fetchData();
+    }
+  }
+
   useEffect(() => {
     fetchData();
     fetchTags();
@@ -57,20 +68,6 @@ const Main: React.FC<{}> = () => {
   return (
     <div>
       <div className="feed_container">
-        {false && (
-          <div className="greeting_container">
-            <div className="greeting">
-              <h1 className="slogan">
-                White,read, <br /> and connect.
-              </h1>
-              <p className="subslogan">
-                Anim excepteur Lorem est ipsum culpa eu reprehenderit anim est. Ipsum cillum amet et est eiusmod
-                deserunt culpa eiusmod deserunt minim ea.
-              </p>
-              <button className="start_writing">Start Writing</button>
-            </div>
-          </div>
-        )}
         <div>
           <div className="your_topics_container">
             <h1 className="your_topics">YOUR TOPICS</h1>
@@ -79,8 +76,7 @@ const Main: React.FC<{}> = () => {
               tags.map((tag) => (
                 <button
                   onClick={() => {
-                    getTagFeed(tag.name);
-                    setSelectedTag(tag.name);
+                    clickTag(tag.name);
                   }}
                   className={`your_topics_topic ${selectedTag === tag.name && 'selected_tag'} `}
                 >

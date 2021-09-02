@@ -81,37 +81,42 @@ const Post: FC = () => {
     fetchData();
     addView();
   }, []);
-
+  //önce post style sonra spinner
   return (
     <div className="post_container">
       {post ? (
         <div className="main_content">
           <div>
+            <div className="post_header">
+              {' '}
+              <div>
+                <h1 className="date">{stampToDate(post.createdAt)}</h1>
+              </div>
+              <div>
+                <button className="post_button" onClick={like}>
+                  {isLiked ? 'Unlike' : 'Like'}
+                </button>
+                <button className="post_button" onClick={save}>
+                  {isSaved ? 'Unsave' : 'Save'}
+                </button>
+              </div>
+            </div>
             <h1 className="author">{post.author.name}</h1>
-            <div>
-              <h1 className="date">{stampToDate(post.createdAt)}</h1>
-            </div>
-            <div>
-              <button onClick={like}>{isLiked ? 'Unlike' : 'Like'}</button>
-              <button onClick={save}>{isSaved ? 'Unsave' : 'Save'}</button>
-            </div>
+
+            <div className="tags">{post && post.tags.map((tag: any) => <TagItem props={tag} />)}</div>
+
             <div className="count_container">
               <h1>
                 {post.viewCount} views - {post.likedBy.length} likes
               </h1>
             </div>
             <h1 className="title">{post.title}</h1>
-            <h1 className="description">
-              Magna amet sint officia mollit exercitation ipsum qui culpa voluptate dolore veniam non in cillum.
-            </h1>
-            <img className="image" src="baby.jpeg" width="200px" height="150px" />
+            <h1 className="description">{post.abstract} </h1>
+            <img className="rounded w-full" src="https://picsum.photos/400/200/?random" />
           </div>
 
           <div className="content_container">
             <p>{post.content} </p>
-          </div>
-          <div className="post_footer">
-            <div className="tags">{post && post.tags.map((tag: any) => <TagItem props={tag} />)}</div>
           </div>
         </div>
       ) : (

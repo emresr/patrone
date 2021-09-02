@@ -1,12 +1,17 @@
 .post_container {
   width: 60%;
   margin: auto auto;
-  padding: 20px 0 20px 0;
+  padding: 30px 0 20px 0;
 }
 .main_content {
   text-align: center;
 }
-
+.post_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
 .author {
   margin: 15px 15px;
 
@@ -31,9 +36,24 @@
   font-size: 20px;
   color: var(--color4);
 }
+.post_button {
+  margin: 10px 10px;
+  padding: 4px 8px;
+  border: 2px solid var(--color3);
+  border-radius: 6px;
+  color: var(--color3);
+  cursor: pointer;
+  background: transparent;
+  font-weight: 900;
+
+  &:hover {
+    background: var(--color3);
+    color: var(--color4);
+  }
+}
 .count_container {
   font-size: 15px;
-  color: var(--color5);
+  color: var(--color4);
   font-weight: bold;
   margin: 5px 0;
 }
@@ -46,6 +66,9 @@
 }
 .tags {
   margin-left: 10px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 .tag {
   margin: 0 5px 0 5px;
