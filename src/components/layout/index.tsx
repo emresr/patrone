@@ -93,9 +93,11 @@ const Layout: FC = ({ children }) => {
                     <h1 className="read_later_title">Read later</h1>
                     {user.saved.length > 0 &&
                       user.saved.map((post: Post, index: number) => (
-                        <h1 key={post.id}>
+                        <h1 key={post.id} className="read_later">
                           <span>{index + 1}.</span>
-                          <a href={`/post/${post.id}`}>{post.title}</a>
+                          <a href={`/post/${post.id}`} className="read_later_link">
+                            {post.title}
+                          </a>
                         </h1>
                       ))}
                   </div>

@@ -31,10 +31,7 @@ const FeedPost = (props: any) => {
         <a className="post_title" href={`/post/${props.props.id}`}>
           <h1>{props.props.title}</h1>
         </a>{' '}
-        <p>
-          Let’s say you have thousands of microservices and you need the access these services by their domain names.
-          How to create these
-        </p>
+        <p>{props.props.abstract}</p>
       </div>
     </div>
   );

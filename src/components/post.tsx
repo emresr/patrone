@@ -70,7 +70,7 @@ const Post: FC = () => {
         },
       )
       .then((response) => {
-        setIsLiked(true);
+        setIsSaved(true);
       })
       .catch((err) => {
         console.error(err);
